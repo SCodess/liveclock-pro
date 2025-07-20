@@ -20,7 +20,7 @@
     <meta name="author" content="LiveClock Team" />
     <link rel="canonical" href="https://yourdomain.com/" />
 
-    <!-- ✅ Open Graph -->
+    <!-- ✅ Open Graph (for Facebook, LinkedIn, etc.) -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://yourdomain.com/" />
     <meta
@@ -42,25 +42,32 @@
     />
     <meta name="twitter:image" content="https://yourdomain.com/preview.jpg" />
 
-    <!-- ✅ Fonts & Tailwind -->
+    <!-- ✅ Preconnect for Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- ✅ Google Fonts (dynamic loadable) -->
     <link
       id="googleFont"
       href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css"
-    />
+
+    <!-- ✅ Correct Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ✅ Your Custom Styles -->
     <link rel="stylesheet" href="css/style.css" />
 
-    <!-- ✅ Optional Ads/Analytics -->
-    <!-- Google AdSense -->
-    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script> -->
-    <!-- Google Analytics -->
-    <!--
+    <!-- ✅ Google AdSense (for monetization) -->
+    <!-- <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      crossorigin="anonymous"
+    ></script> -->
+
+    <!-- ✅ Google Analytics (Uncomment to activate) -->
+    <!-- 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -107,17 +114,25 @@
       </script>
     </div>
 
-    <!-- ✅ Settings Panel with Close Button -->
+    <!-- ✅ Settings Panel (fixed) -->
     <div
       id="settingsPanel"
-      class="hidden fixed top-0 right-0 w-80 h-full glass-panel shadow-lg p-6 z-50 overflow-y-auto transition-all duration-300 ease-in-out"
+      class="hidden fixed top-0 right-0 w-80 h-full glass-panel shadow-lg p-6 z-50 overflow-y-auto transition-all duration-300 ease-in-out bg-gray-800 bg-opacity-90 backdrop-blur-md"
     >
+      <!-- Close button -->
       <button
         id="closeSettings"
         class="text-sm mt-4 text-white bg-red-500 px-3 py-1 rounded hover:bg-red-600"
       >
         ✖ Close
       </button>
+
+      <!-- Placeholder: Add future settings here -->
+      <div class="mt-6 text-white">
+        <p class="text-sm opacity-70">
+          Theme options and font settings coming soon.
+        </p>
+      </div>
     </div>
 
     <script src="js/script.js" defer></script>
