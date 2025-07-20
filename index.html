@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>LiveClock Pro - Fullscreen Customizable Clock</title>
+
+    <!-- ✅ SEO Meta Tags -->
+    <meta
+      name="description"
+      content="LiveClock Pro is a sleek, fullscreen digital clock with themes, Google Fonts, and animated backgrounds."
+    />
+    <meta
+      name="keywords"
+      content="digital clock, fullscreen clock, live clock, customizable clock, animated background clock"
+    />
+    <meta name="author" content="LiveClock Team" />
+    <link rel="canonical" href="https://yourdomain.com/" />
+
+    <!-- ✅ Open Graph (for Facebook, LinkedIn, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://yourdomain.com/" />
+    <meta
+      property="og:title"
+      content="LiveClock Pro - Customizable Fullscreen Clock"
+    />
+    <meta
+      property="og:description"
+      content="Sleek fullscreen clock with themes, video background, and Google Fonts."
+    />
+    <meta property="og:image" content="https://yourdomain.com/preview.jpg" />
+
+    <!-- ✅ Twitter Card Meta -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="LiveClock Pro" />
+    <meta
+      name="twitter:description"
+      content="Fullscreen digital clock with themes and customization."
+    />
+    <meta name="twitter:image" content="https://yourdomain.com/preview.jpg" />
+
+    <!-- ✅ Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- ✅ Google Fonts (dynamic loadable) -->
+    <link
+      id="googleFont"
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ Tailwind CSS (CDN optimized) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css"
+    />
+
+    <!-- ✅ Your Custom Styles -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- ✅ Google AdSense (for monetization) -->
+    <!-- <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      crossorigin="anonymous"
+    ></script> -->
+
+    <!-- ✅ Google Analytics (Uncomment to activate) -->
+    <!-- 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  --></head>
+
+  <body
+    class="bg-gray-900 text-white flex items-center justify-center min-h-screen overflow-hidden relative"
+  >
+    <video id="bg-video" autoplay muted loop playsinline class="hidden"></video>
+
+    <nav class="absolute top-4 right-4 z-50">
+      <button
+        id="settingsBtn"
+        class="bg-yellow-400 text-black px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition-all"
+      >
+        ⚙ Settings
+      </button>
+    </nav>
+
+    <main class="w-full text-center px-4">
+      <div
+        id="clock"
+        class="text-6xl md:text-8xl lg:text-9xl font-bold drop-shadow-lg"
+      ></div>
+    </main>
+
+    <!-- Ads block (non-intrusive) -->
+    <div class="absolute bottom-2 w-full text-center z-40">
+      <ins
+        class="adsbygoogle"
+        style="display: block"
+        data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
+        data-ad-slot="1234567890"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <div
+      id="settingsPanel"
+      class="hidden fixed top-0 right-0 w-80 h-full glass-panel shadow-lg p-6 z-50 overflow-y-auto transition-all duration-300 ease-in-out"
+    ></div>
+
+    <script src="js/script.js" defer></script>
+  </body>
+</html>
