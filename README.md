@@ -9,9 +9,9 @@ A **Free Fullscreen Clock** with customizable video, music, and font backgrounds
 
 ## Preview
 
-![LiveClock Preview](<img width="1920" height="918" alt="image" src="https://github.com/user-attachments/assets/a1c1a547-276b-4291-b60d-581017783850" />
+![LiveClock Preview]<img width="3840" height="2160" alt="image" src="https://github.com/user-attachments/assets/5e9a2f99-ba20-494e-b316-3127b0676dc7" />
 
-)
+
 
 ---
 
