@@ -1,13 +1,12 @@
 html,
 body {
-  font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: "Roboto", sans-serif;
   overflow: hidden;
   transition: background 0.3s, color 0.3s;
 }
-
 #bg-video {
   position: fixed;
   top: 0;
@@ -15,17 +14,11 @@ body {
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  z-index: -1;
+  z-index: -2;
 }
-
-/* Responsive UI enhancer */
-@media (max-width: 768px) {
-  #clock {
-    font-size: 4rem;
-  }
+#bg-audio {
+  display: none;
 }
-
-/* Glass Panel for settings */
 .glass-panel {
   background: rgba(25, 25, 25, 0.6);
   backdrop-filter: blur(12px);

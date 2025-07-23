@@ -8,19 +8,18 @@
     />
     <title>LiveClock Pro - Fullscreen Customizable Clock</title>
 
-    <!-- ✅ SEO Meta Tags -->
+    <!-- SEO Meta Tags -->
     <meta
       name="description"
-      content="LiveClock Pro is a sleek, fullscreen digital clock with themes, Google Fonts, and animated backgrounds."
+      content="LiveClock Pro is a sleek, fullscreen digital clock with themes, Google Fonts, video/image/music backgrounds, and full customization."
     />
     <meta
       name="keywords"
-      content="digital clock, fullscreen clock, live clock, customizable clock, animated background clock"
+      content="digital clock, fullscreen clock, live clock, customizable clock, animated background, video clock"
     />
     <meta name="author" content="LiveClock Team" />
-    <link rel="canonical" href="https://yourdomain.com/" />
 
-    <!-- ✅ Open Graph (for Facebook, LinkedIn, etc.) -->
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://yourdomain.com/" />
     <meta
@@ -29,97 +28,55 @@
     />
     <meta
       property="og:description"
-      content="Sleek fullscreen clock with themes, video background, and Google Fonts."
+      content="Sleek fullscreen clock with video, music, and image backgrounds."
     />
     <meta property="og:image" content="https://yourdomain.com/preview.jpg" />
 
-    <!-- ✅ Twitter Card Meta -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="LiveClock Pro" />
-    <meta
-      name="twitter:description"
-      content="Fullscreen digital clock with themes and customization."
-    />
-    <meta name="twitter:image" content="https://yourdomain.com/preview.jpg" />
+    <!-- css link -->
+    <link rel="stylesheet" href="css/style.css" />
 
-    <!-- ✅ Preconnect for Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- ✅ Google Fonts (dynamic loadable) -->
+    <!-- Fonts & Tailwind -->
     <link
       id="googleFont"
       href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
       rel="stylesheet"
     />
-
-    <!-- ✅ Correct Tailwind CDN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- ✅ Your Custom Styles -->
-    <link rel="stylesheet" href="css/style.css" />
-
-    <!-- ✅ Google AdSense (for monetization) -->
-    <!-- <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-      crossorigin="anonymous"
-    ></script> -->
-
-    <!-- ✅ Google Analytics (Uncomment to activate) -->
-    <!-- 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
-    -->
   </head>
 
   <body
     class="bg-gray-900 text-white flex items-center justify-center min-h-screen overflow-hidden relative"
   >
+    <!-- Background Layers -->
     <video id="bg-video" autoplay muted loop playsinline class="hidden"></video>
+    <audio id="bg-audio" controls loop></audio>
 
+    <!-- Settings button -->
     <nav class="absolute top-4 right-4 z-50">
       <button
         id="settingsBtn"
         class="bg-yellow-400 text-black px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition-all"
       >
-        ⚙ Settings
+        Settings
       </button>
     </nav>
 
+    <!-- Main Clock -->
     <main class="w-full text-center px-4">
       <div
         id="clock"
         class="text-6xl md:text-8xl lg:text-9xl font-bold drop-shadow-lg"
       ></div>
+      <div id="date" class="mt-4 text-2xl opacity-80"></div>
     </main>
 
-    <!-- Ads block (non-intrusive) -->
-    <div class="absolute bottom-2 w-full text-center z-40">
-      <ins
-        class="adsbygoogle"
-        style="display: block"
-        data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-        data-ad-slot="1234567890"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      ></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </div>
-
-    <!-- ✅ Settings Panel (fixed) -->
+    <!-- Settings Panel -->
     <div
       id="settingsPanel"
       class="hidden fixed top-0 right-0 w-80 h-full glass-panel shadow-lg p-6 z-50 overflow-y-auto transition-all duration-300 ease-in-out bg-gray-800 bg-opacity-90 backdrop-blur-md"
     >
-      <!-- Close button -->
       <button
         id="closeSettings"
         class="text-sm mt-4 text-white bg-red-500 px-3 py-1 rounded hover:bg-red-600"
@@ -127,14 +84,84 @@
         ✖ Close
       </button>
 
-      <!-- Placeholder: Add future settings here -->
-      <div class="mt-6 text-white">
-        <p class="text-sm opacity-70">
-          Theme options and font settings coming soon.
-        </p>
+      <h2 class="text-lg font-bold mt-4">Customize</h2>
+
+      <!-- Background Upload -->
+      <div class="mt-4">
+        <label class="block text-sm mb-1">Background Image</label>
+        <input
+          type="file"
+          id="bgImage"
+          accept="image/*"
+          class="w-full text-sm"
+        />
+        <label class="block text-sm mt-4 mb-1"
+          >Background Video (min 1 min)</label
+        >
+        <input
+          type="file"
+          id="bgVideoInput"
+          accept="video/*"
+          class="w-full text-sm"
+        />
+        <label class="block text-sm mt-4 mb-1">Background Music</label>
+        <input
+          type="file"
+          id="bgMusic"
+          accept="audio/*"
+          class="w-full text-sm"
+        />
+      </div>
+
+      <!-- Color Picker -->
+      <div class="mt-4">
+        <label class="block text-sm mb-1">Clock Color</label>
+        <input type="color" id="colorPicker" class="w-full h-10" />
+      </div>
+
+      <!-- Font Selector -->
+      <div class="mt-4">
+        <label class="block text-sm mb-1">Font Style</label>
+        <select id="fontSelector" class="w-full text-black p-1">
+          <option value="Roboto">Roboto</option>
+          <option value="Orbitron">Orbitron</option>
+          <option value="Lobster">Lobster</option>
+          <option value="Montserrat">Montserrat</option>
+          <option value="Bebas+Neue">Bebas Neue</option>
+          <option value="Pacifico">Pacifico</option>
+          <option value="Raleway">Raleway</option>
+          <option value="Oswald">Oswald</option>
+          <option value="Merriweather">Merriweather</option>
+          <option value="Playfair+Display">Playfair Display</option>
+        </select>
+      </div>
+
+      <!-- Toggles -->
+      <div class="mt-4 space-y-2">
+        <button id="timeToggle" class="bg-blue-500 px-3 py-1 rounded">
+          Toggle 12/24h
+        </button>
+        <button id="dateToggle" class="bg-green-500 px-3 py-1 rounded">
+          Toggle Date
+        </button>
+        <button id="secondsToggle" class="bg-purple-500 px-3 py-1 rounded">
+          Toggle Seconds
+        </button>
+      </div>
+
+      <!-- Controls -->
+      <div class="mt-6 flex flex-col space-y-2">
+        <button id="fullscreenBtn" class="bg-yellow-500 px-3 py-1 rounded">
+          Toggle Fullscreen
+        </button>
+        <button id="saveSettingsBtn" class="bg-green-600 px-3 py-1 rounded">
+          Save Settings
+        </button>
+        <button id="resetSettingsBtn" class="bg-red-700 px-3 py-1 rounded">
+          Reset to Default
+        </button>
       </div>
     </div>
-
-    <script src="js/script.js" defer></script>
+    <script src="js/script.js"></script>
   </body>
 </html>

@@ -1,20 +1,35 @@
 const clock = document.getElementById("clock");
+const dateEl = document.getElementById("date");
+const bgVideoEl = document.getElementById("bg-video");
+const bgAudioEl = document.getElementById("bg-audio");
 const settingsBtn = document.getElementById("settingsBtn");
 const settingsPanel = document.getElementById("settingsPanel");
 const colorPicker = document.getElementById("colorPicker");
 const bgImage = document.getElementById("bgImage");
-const bgVideo = document.getElementById("bgVideo");
-const bgVideoEl = document.getElementById("bg-video");
+const bgVideoInput = document.getElementById("bgVideoInput");
+const bgMusic = document.getElementById("bgMusic");
 const fontSelector = document.getElementById("fontSelector");
-const themeToggle = document.getElementById("themeToggle");
 const timeToggle = document.getElementById("timeToggle");
+const dateToggle = document.getElementById("dateToggle");
+const secondsToggle = document.getElementById("secondsToggle");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 const saveSettingsBtn = document.getElementById("saveSettingsBtn");
+const resetSettingsBtn = document.getElementById("resetSettingsBtn");
 
-let is24h = false;
-let wakeLock = null;
+let prefs = JSON.parse(localStorage.getItem("clockPrefs")) || {
+  color: "#ffffff",
+  font: "Roboto",
+  is24h: false,
+  showDate: true,
+  showSeconds: true,
+  bgType: null,
+  bg: null,
+  music: null,
+};
 
-const prefs = JSON.parse(localStorage.getItem("clockPrefs")) || {};
+let is24h = prefs.is24h;
+let showDate = prefs.showDate;
+let showSeconds = prefs.showSeconds;
 
 function setFont(font) {
   document.getElementById(
@@ -23,50 +38,79 @@ function setFont(font) {
   document.body.style.fontFamily = `'${font.replace(/\+/g, " ")}', sans-serif`;
 }
 
-function setTheme(mode) {
-  document.body.classList.toggle("bg-white", mode === "light");
-  document.body.classList.toggle("text-black", mode === "light");
-  document.body.classList.toggle("bg-gray-900", mode !== "light");
-  document.body.classList.toggle("text-white", mode !== "light");
-  prefs.theme = mode;
+function updateClock() {
+  const now = new Date();
+  let timeOpts = {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: showSeconds ? "2-digit" : undefined,
+    hour12: !is24h,
+  };
+  clock.textContent = now.toLocaleTimeString([], timeOpts);
+  dateEl.textContent = showDate
+    ? now.toLocaleDateString([], {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "";
+  requestAnimationFrame(updateClock);
 }
 
 function savePrefs() {
   localStorage.setItem("clockPrefs", JSON.stringify(prefs));
 }
 
-function updateClock() {
-  const now = new Date();
-  clock.textContent = now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: !is24h,
-  });
+function resetPrefs() {
+  localStorage.removeItem("clockPrefs");
+  window.location.reload();
 }
 
-function startClockLoop() {
-  updateClock();
-  requestAnimationFrame(startClockLoop);
+// Background handlers
+function applyBackground() {
+  if (prefs.bgType === "image" && prefs.bg) {
+    document.body.style.background = `url(${prefs.bg}) center/cover no-repeat`;
+    bgVideoEl.classList.add("hidden");
+  } else if (prefs.bgType === "video" && prefs.bg) {
+    bgVideoEl.src = prefs.bg;
+    bgVideoEl.classList.remove("hidden");
+    document.body.style.background = "";
+  } else {
+    document.body.style.background = "";
+    bgVideoEl.classList.add("hidden");
+  }
+  if (prefs.music) {
+    bgAudioEl.src = prefs.music;
+    bgAudioEl.play().catch(() => {});
+  }
 }
 
-startClockLoop();
-
+// Event Listeners
 settingsBtn.onclick = () => settingsPanel.classList.toggle("hidden");
 document.getElementById("closeSettings").onclick = () =>
   settingsPanel.classList.add("hidden");
-themeToggle.onclick = () => setTheme(prefs.theme === "dark" ? "light" : "dark");
-timeToggle.onclick = () => (is24h = !is24h);
-
+timeToggle.onclick = () => {
+  is24h = !is24h;
+  prefs.is24h = is24h;
+  savePrefs();
+};
+dateToggle.onclick = () => {
+  showDate = !showDate;
+  prefs.showDate = showDate;
+  savePrefs();
+};
+secondsToggle.onclick = () => {
+  showSeconds = !showSeconds;
+  prefs.showSeconds = showSeconds;
+  savePrefs();
+};
 fullscreenBtn.onclick = () => {
   document.fullscreenElement
     ? document.exitFullscreen()
     : document.documentElement.requestFullscreen();
 };
-
-document.addEventListener("fullscreenchange", () => {
-  settingsBtn.classList.toggle("hidden", !!document.fullscreenElement);
-});
+resetSettingsBtn.onclick = resetPrefs;
 
 saveSettingsBtn.onclick = () => {
   prefs.color = colorPicker.value;
@@ -74,51 +118,33 @@ saveSettingsBtn.onclick = () => {
   prefs.font = fontSelector.value;
   setFont(prefs.font);
   prefs.is24h = is24h;
+  prefs.showDate = showDate;
+  prefs.showSeconds = showSeconds;
 
   if (bgImage.files[0]) {
     const url = URL.createObjectURL(bgImage.files[0]);
     prefs.bgType = "image";
     prefs.bg = url;
-    document.body.style.background = `url(${url}) center/cover no-repeat`;
-    bgVideoEl.classList.add("hidden");
-    bgVideoEl.src = "";
-  } else if (bgVideo.files[0]) {
-    const file = bgVideo.files[0];
-    if (file.duration < 60) {
-      alert("Please upload a video of at least 1 minute.");
-      return;
-    }
+  } else if (bgVideoInput.files[0]) {
+    const file = bgVideoInput.files[0];
     const url = URL.createObjectURL(file);
     prefs.bgType = "video";
     prefs.bg = url;
-    bgVideoEl.src = url;
-    bgVideoEl.classList.remove("hidden");
-    document.body.style.background = "";
-  } else {
-    prefs.bgType = null;
-    prefs.bg = null;
-    document.body.style.background = "";
-    bgVideoEl.classList.add("hidden");
-    bgVideoEl.src = "";
   }
-
+  if (bgMusic.files[0]) {
+    prefs.music = URL.createObjectURL(bgMusic.files[0]);
+  }
+  applyBackground();
   savePrefs();
   settingsPanel.classList.add("hidden");
 };
 
+// Load saved preferences
 if (prefs.color) clock.style.color = prefs.color;
 if (prefs.font) setFont(prefs.font);
-if (prefs.theme) setTheme(prefs.theme);
-if (prefs.is24h !== undefined) is24h = prefs.is24h;
-if (prefs.bgType === "image" && prefs.bg) {
-  document.body.style.background = `url(${prefs.bg}) center/cover no-repeat`;
-  bgVideoEl.classList.add("hidden");
-} else if (prefs.bgType === "video" && prefs.bg) {
-  bgVideoEl.src = prefs.bg;
-  bgVideoEl.classList.remove("hidden");
-  document.body.style.background = "";
-}
+is24h = prefs.is24h;
+showDate = prefs.showDate;
+showSeconds = prefs.showSeconds;
+applyBackground();
 
-if ("wakeLock" in navigator) {
-  navigator.wakeLock.request("screen").then((lock) => (wakeLock = lock));
-}
+updateClock();
